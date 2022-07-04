@@ -18,7 +18,7 @@
 *  More than 15 or equal: x1,5
 *  More than 20 or equal: x1,7
 *  Never more than: 500 (throw an error)
- For doctors, the rules are as following:
+* For doctors, the rules are as following:
 *  Less than 10-year experience: x1,5
 *  More than 10 or equal: x2
 *  More than 20 or equal: x3
@@ -53,6 +53,16 @@ const premium = (employee = {}, base) => {
       profession: "doctor",
       experience: [10, 20, 56],
       coefficient: [1.5, 2, 3],
+    },
+    {
+      profession: "therapist",
+      experience: [10, 20, 56],
+      coefficient: [0, 0, 0],
+    },
+    {
+      profession: "psychologist",
+      experience: [10, 20, 56],
+      coefficient: [0, 0, 0],
     },
   ];
   const workExperience = employee.experience;
@@ -222,9 +232,29 @@ for (const solution of [premium]) {
         }
       });
     });
+    describe("Premium calculation for other specialists", () => {
+      describe("No premium for others regardless their years of experience", () => {
+        for (let j = 0; j <= 55; j++) {
+          it("Should return 0 for therapist", () => {
+            expect(
+              solution({ profession: "therapist", experience: j }, 200)
+            ).toBe(0);
+          });
+        }
+      });
+      describe("No premium for psychologist", () => {
+        for (let j = 0; j <= 55; j++) {
+          it("Should return 0 for psychologist", () => {
+            expect(
+              solution({ profession: "psychologist", experience: j }, 200)
+            ).toBe(0);
+          });
+        }
+      });
+    }); 
   });
 }
 
 // // =============== a minified solution you can use to test your test cases ===============
 
-// // prettier-ignore
+// prettier-ignore
