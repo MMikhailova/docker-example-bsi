@@ -46,27 +46,31 @@ const premium = (employee = {}, base) => {
   const database = [
     {
       profession: "nurse",
-      experience: [10, 15, 20, 55],
-      coefficient: [1.2, 1.3, 1.5, 1.7],
+      experience: [10, 15, 20, 55], //these values represent the biggest value of an age period (Less than 10y.e-->10, more than 10-->20, more than 20--->56)
+      coefficient: [1.2, 1.3, 1.5, 1.7],// coefficients in the order according to work experience
     },
     {
       profession: "doctor",
-      experience: [10, 20, 56],
+      experience: [10, 20, 55],
       coefficient: [1.5, 2, 3],
     },
     {
       profession: "therapist",
-      experience: [10, 20, 56],
+      experience: [10, 20, 55],
       coefficient: [0, 0, 0],
     },
     {
       profession: "psychologist",
-      experience: [10, 20, 56],
+      experience: [10, 20, 55],
       coefficient: [0, 0, 0],
     },
   ];
   const workExperience = employee.experience;
   const jobName = employee.profession;
+  // 1.looping all persons in "database" array and check for given profession
+  // 2.comparing given work experience with experience values in database to find the index of the correspondent value.
+  // 3.finding coefficient by correspondent experience index
+  // 4.Break look as soon as coefficient is found.
   for (const person of database) {
     if (person.profession === jobName) {
       expIndex = person.experience.findIndex((exp) => workExperience <= exp);
@@ -74,10 +78,9 @@ const premium = (employee = {}, base) => {
       break;
     }
   }
-  if (Math.floor(base * indexation) > 500 && jobName === "nurse")
+  if ((Math.floor(base * indexation) > 500 && jobName === "nurse") || (Math.floor(base * indexation) > 1000 && jobName === "doctor"))
     throw new Error("too much money");
-  if (Math.floor(base * indexation) > 1000 && jobName === "doctor")
-    throw new Error("too much money");
+  
   return Math.floor(base * indexation);
 };
 
